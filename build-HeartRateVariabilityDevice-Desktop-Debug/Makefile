@@ -52,12 +52,14 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../HeartRateVariabilityDevice/Tester.cpp \
+SOURCES       = ../HeartRateVariabilityDevice/Button.cpp \
 		../HeartRateVariabilityDevice/main.cpp \
-		../HeartRateVariabilityDevice/mainwindow.cpp moc_mainwindow.cpp
-OBJECTS       = Tester.o \
+		../HeartRateVariabilityDevice/mainwindow.cpp moc_Button.cpp \
+		moc_mainwindow.cpp
+OBJECTS       = Button.o \
 		main.o \
 		mainwindow.o \
+		moc_Button.o \
 		moc_mainwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -135,8 +137,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		../HeartRateVariabilityDevice/HeartRateVariabilityDevice.pro ../HeartRateVariabilityDevice/Tester.h \
-		../HeartRateVariabilityDevice/mainwindow.h ../HeartRateVariabilityDevice/Tester.cpp \
+		../HeartRateVariabilityDevice/HeartRateVariabilityDevice.pro ../HeartRateVariabilityDevice/Button.h \
+		../HeartRateVariabilityDevice/mainwindow.h ../HeartRateVariabilityDevice/Button.cpp \
 		../HeartRateVariabilityDevice/main.cpp \
 		../HeartRateVariabilityDevice/mainwindow.cpp
 QMAKE_TARGET  = HeartRateVariabilityDevice
@@ -320,8 +322,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../HeartRateVariabilityDevice/Tester.h ../HeartRateVariabilityDevice/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../HeartRateVariabilityDevice/Tester.cpp ../HeartRateVariabilityDevice/main.cpp ../HeartRateVariabilityDevice/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../HeartRateVariabilityDevice/Button.h ../HeartRateVariabilityDevice/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../HeartRateVariabilityDevice/Button.cpp ../HeartRateVariabilityDevice/main.cpp ../HeartRateVariabilityDevice/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../HeartRateVariabilityDevice/mainwindow.ui $(DISTDIR)/
 
 
@@ -354,9 +356,14 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_Button.cpp moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
+	-$(DEL_FILE) moc_Button.cpp moc_mainwindow.cpp
+moc_Button.cpp: ../HeartRateVariabilityDevice/Button.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Desktop/HeartRateVariabilityDevice/build-HeartRateVariabilityDevice-Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Desktop/HeartRateVariabilityDevice/HeartRateVariabilityDevice -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../HeartRateVariabilityDevice/Button.h -o moc_Button.cpp
+
 moc_mainwindow.cpp: ../HeartRateVariabilityDevice/mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -383,16 +390,19 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-Tester.o: ../HeartRateVariabilityDevice/Tester.cpp ../HeartRateVariabilityDevice/Tester.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Tester.o ../HeartRateVariabilityDevice/Tester.cpp
+Button.o: ../HeartRateVariabilityDevice/Button.cpp ../HeartRateVariabilityDevice/Button.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Button.o ../HeartRateVariabilityDevice/Button.cpp
 
 main.o: ../HeartRateVariabilityDevice/main.cpp ../HeartRateVariabilityDevice/mainwindow.h \
-		../HeartRateVariabilityDevice/Tester.h
+		../HeartRateVariabilityDevice/Button.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../HeartRateVariabilityDevice/main.cpp
 
 mainwindow.o: ../HeartRateVariabilityDevice/mainwindow.cpp ../HeartRateVariabilityDevice/mainwindow.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../HeartRateVariabilityDevice/mainwindow.cpp
+
+moc_Button.o: moc_Button.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Button.o moc_Button.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
