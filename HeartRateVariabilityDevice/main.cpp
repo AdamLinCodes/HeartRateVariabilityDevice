@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
     w.setupChart(chartView);
     w.setupButtons(buttonsGridLayout);
 
+    buttonsGridLayout->addWidget(new Menu(), 0, 0);
+
     // Add the chart and buttons the main layout
     widgetLayout->addWidget(chartView, 1, 0);
     widgetLayout->addWidget(buttonsView, 2, 0);

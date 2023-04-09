@@ -10,7 +10,9 @@
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
 #include <QPainter>
+#include <QComboBox>
 #include "Button.h"
+#include "Menu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,5 +32,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Button* powerButton;
+    Button* startStopButton;
+    Button* upButton;
+    Button* downButton;
+    Button* leftButton;
+    Button* rightButton;
+    Button* menuButton;
 };
 #endif // MAINWINDOW_H
