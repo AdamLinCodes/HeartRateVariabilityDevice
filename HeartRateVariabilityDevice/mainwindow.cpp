@@ -35,6 +35,7 @@ void MainWindow::setupChart(QChartView* chartView)
     heartSeries->append(19, 1);
     heartSeries->append(20, 2);
 
+
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->chart()->addSeries(heartSeries);
     chartView->setFixedSize(450, 200);
