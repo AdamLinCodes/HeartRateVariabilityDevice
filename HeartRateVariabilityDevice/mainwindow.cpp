@@ -13,13 +13,27 @@ void MainWindow::setupChart(QChartView* chartView)
 
     // Heart Rhythm chart stuff
     QLineSeries* heartSeries = new QLineSeries;
-    heartSeries->append(0, 1);
-    heartSeries->append(1, 2);
-    heartSeries->append(2, 3);
-    heartSeries->append(3, 4);
-    heartSeries->append(4, 8);
-
-
+    heartSeries->append(0, 2);
+    heartSeries->append(1, 3);
+    heartSeries->append(2, 2);
+    heartSeries->append(3, 1);
+    heartSeries->append(4, 2);
+    heartSeries->append(5, 3);
+    heartSeries->append(6, 2);
+    heartSeries->append(7, 1);
+    heartSeries->append(8, 2);
+    heartSeries->append(9, 3);
+    heartSeries->append(10, 2);
+    heartSeries->append(11, 1);
+    heartSeries->append(12, 2);
+    heartSeries->append(13, 3);
+    heartSeries->append(14, 2);
+    heartSeries->append(15, 1);
+    heartSeries->append(16, 2);
+    heartSeries->append(17, 3);
+    heartSeries->append(18, 2);
+    heartSeries->append(19, 1);
+    heartSeries->append(20, 2);
 
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->chart()->addSeries(heartSeries);
