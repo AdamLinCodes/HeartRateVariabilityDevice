@@ -17,12 +17,14 @@ CONFIG += c++11
 SOURCES += \
     Button.cpp \
     Menu.cpp \
+    Session.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Button.h \
     Menu.h \
+    Session.h \
     mainwindow.h
 
 FORMS += \
