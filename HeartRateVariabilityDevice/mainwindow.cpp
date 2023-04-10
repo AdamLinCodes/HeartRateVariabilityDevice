@@ -52,6 +52,14 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     leftButton = new Button("LEFT");
     rightButton = new Button("RIGHT");
 
+    //Have all button initially disabled (except powerbutton)
+    startStopButton->setEnabled(false);
+    menuButton->setEnabled(false);
+    upButton->setEnabled(false);
+    downButton->setEnabled(false);
+    leftButton->setEnabled(false);
+    rightButton->setEnabled(false);
+
 
     // adding objects to the buttonsGridLayout
     buttonsGridLayout->addWidget(powerButton, 4, 1);
@@ -65,27 +73,50 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 
 
     // connecting objects to slots
-    QObject :: connect(powerButton, &Button::clickedWithCount, [](int count) {
-        qDebug() << "Power Button clicked " << count << " times";
+    QObject :: connect(powerButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
+        if ((count % 2) == 1){
+            this->turnButtonsOn();
+        }else{
+            this->turnButtonsOff();
+        }
     });
-    QObject :: connect(menuButton, &Button::clickedWithCount, [](int count) {
-        qDebug() << "Menu Button clicked " << count << " times";
+    QObject :: connect(menuButton, &Button::clickedWithCount, [](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(startStopButton, &Button::clickedWithCount, [](int count) {
-        qDebug() << "Start Button clicked " << count << " times";
+    QObject :: connect(startStopButton, &Button::clickedWithCount, [](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(upButton, &Button::clickedWithCount, [](int count) {
-        qDebug() << "Up Button clicked " << count << " times";
+    QObject :: connect(upButton, &Button::clickedWithCount, [](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(downButton, &Button::clickedWithCount, [](int count) {
-        qDebug() << "Down Button clicked " << count << " times";
+    QObject :: connect(downButton, &Button::clickedWithCount, [](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(leftButton, &Button::clickedWithCount, [](int count) {
-        qDebug() << "Left Button clicked " << count << " times";
+    QObject :: connect(leftButton, &Button::clickedWithCount, [](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(rightButton, &Button::clickedWithCount, [](int count) {
-        qDebug() << "Right Button clicked " << count << " times";
+    QObject :: connect(rightButton, &Button::clickedWithCount, [](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
     });
+}
+
+void MainWindow::turnButtonsOn(){
+    startStopButton->setEnabled(true);
+    menuButton->setEnabled(true);
+    upButton->setEnabled(true);
+    downButton->setEnabled(true);
+    leftButton->setEnabled(true);
+    rightButton->setEnabled(true);
+}
+
+void MainWindow::turnButtonsOff(){
+    startStopButton->setEnabled(false);
+    menuButton->setEnabled(false);
+    upButton->setEnabled(false);
+    downButton->setEnabled(false);
+    leftButton->setEnabled(false);
+    rightButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()

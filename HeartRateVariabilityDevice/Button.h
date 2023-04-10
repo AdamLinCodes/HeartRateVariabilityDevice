@@ -12,7 +12,7 @@ class Button : public QPushButton {
         virtual ~Button();
 
     signals:
-        void clickedWithCount(int count);
+        void clickedWithCount(int count, QString& name);
 
     private slots:
         void onButtonClicked();

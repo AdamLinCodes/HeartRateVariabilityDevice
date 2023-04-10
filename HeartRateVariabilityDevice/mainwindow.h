@@ -28,6 +28,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     void setupChart(QChartView*);
     void setupButtons(QGridLayout*);
+    void turnButtonsOn();
+    void turnButtonsOff();
     ~MainWindow();
 
 private:
