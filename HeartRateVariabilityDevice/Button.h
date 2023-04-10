@@ -19,6 +19,7 @@ class Button : public QPushButton {
 
     private:
         int m_count;
+        QString name;
 };
 
 #endif // BUTTON_H
