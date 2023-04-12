@@ -28,6 +28,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     void setupChart(QChartView*);
     void setupButtons(QGridLayout*);
+    void setupMenuBox(QGridLayout*);
     void turnButtonsOn();
     void turnButtonsOff();
     ~MainWindow();
@@ -41,5 +42,7 @@ private:
     Button* leftButton;
     Button* rightButton;
     Button* menuButton;
+
+    Menu* menuBox;
 };
 #endif // MAINWINDOW_H

@@ -40,6 +40,14 @@ void MainWindow::setupChart(QChartView* chartView)
     chartView->chart()->addSeries(heartSeries);
     chartView->setFixedSize(450, 200);
 }
+
+void MainWindow::setupMenuBox(QGridLayout *buttonsGridLayout)
+{
+    menuBox = new Menu();
+    menuBox->setEnabled(false);
+    buttonsGridLayout->addWidget(menuBox, 0, 0);
+}
+
 void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 {
     // button instantiations
@@ -102,12 +110,15 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 }
 
 void MainWindow::turnButtonsOn(){
+
     startStopButton->setEnabled(true);
     menuButton->setEnabled(true);
     upButton->setEnabled(true);
     downButton->setEnabled(true);
     leftButton->setEnabled(true);
     rightButton->setEnabled(true);
+
+    menuBox->setEnabled(true);
 }
 
 void MainWindow::turnButtonsOff(){
@@ -117,6 +128,8 @@ void MainWindow::turnButtonsOff(){
     downButton->setEnabled(false);
     leftButton->setEnabled(false);
     rightButton->setEnabled(false);
+
+    menuBox->setEnabled(false);
 }
 
 MainWindow::~MainWindow()

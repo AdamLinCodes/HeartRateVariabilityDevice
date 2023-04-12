@@ -20,8 +20,7 @@ int main(int argc, char *argv[])
     // Graphic setups for the heart-rate chart, and the buttons layout
     w.setupChart(chartView);
     w.setupButtons(buttonsGridLayout);
-
-    buttonsGridLayout->addWidget(new Menu(), 0, 0);
+    w.setupMenuBox(buttonsGridLayout);
 
     // Add the chart and buttons the main layout
     widgetLayout->addWidget(chartView, 1, 0);
