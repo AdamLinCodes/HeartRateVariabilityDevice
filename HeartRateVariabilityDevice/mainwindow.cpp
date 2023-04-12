@@ -12,32 +12,11 @@ void MainWindow::setupChart(QChartView* chartView)
 {
 
     // Heart Rhythm chart stuff
-    QLineSeries* heartSeries = new QLineSeries;
-    heartSeries->append(0, 2);
-    heartSeries->append(1, 3);
-    heartSeries->append(2, 2);
-    heartSeries->append(3, 1);
-    heartSeries->append(4, 2);
-    heartSeries->append(5, 3);
-    heartSeries->append(6, 2);
-    heartSeries->append(7, 1);
-    heartSeries->append(8, 2);
-    heartSeries->append(9, 3);
-    heartSeries->append(10, 2);
-    heartSeries->append(11, 1);
-    heartSeries->append(12, 2);
-    heartSeries->append(13, 3);
-    heartSeries->append(14, 2);
-    heartSeries->append(15, 1);
-    heartSeries->append(16, 2);
-    heartSeries->append(17, 3);
-    heartSeries->append(18, 2);
-    heartSeries->append(19, 1);
-    heartSeries->append(20, 2);
+    QLineSeries* emptySeries = new QLineSeries;
 
 
     chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->chart()->addSeries(heartSeries);
+    chartView->chart()->addSeries(emptySeries);
     chartView->setFixedSize(450, 200);
 }
 
@@ -48,7 +27,7 @@ void MainWindow::setupMenuBox(QGridLayout *buttonsGridLayout)
     buttonsGridLayout->addWidget(menuBox, 0, 0);
 }
 
-void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
+void MainWindow::setupButtons(QGridLayout *buttonsGridLayout, Graph* coherenceGraphView)
 {
     // button instantiations
     powerButton = new Button("On/Off");
@@ -92,8 +71,9 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     QObject :: connect(menuButton, &Button::clickedWithCount, [](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(startStopButton, &Button::clickedWithCount, [](int count, const QString& name) {
+    QObject :: connect(startStopButton, &Button::clickedWithCount, [coherenceGraphView](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
+        coherenceGraphView->setHighCoherence();
     });
     QObject :: connect(upButton, &Button::clickedWithCount, [](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";

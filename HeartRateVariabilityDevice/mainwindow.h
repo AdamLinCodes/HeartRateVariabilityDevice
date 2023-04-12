@@ -13,6 +13,7 @@
 #include <QComboBox>
 #include "Button.h"
 #include "Menu.h"
+#include "Graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,7 +28,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     void setupChart(QChartView*);
-    void setupButtons(QGridLayout*);
+    void setupButtons(QGridLayout*, Graph*);
     void setupMenuBox(QGridLayout*);
     void turnButtonsOn();
     void turnButtonsOff();

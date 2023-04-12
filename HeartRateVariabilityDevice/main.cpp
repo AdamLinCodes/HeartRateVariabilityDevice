@@ -13,17 +13,17 @@ int main(int argc, char *argv[])
 
     // Container objects: views and layouts
     QGridLayout* buttonsGridLayout = new QGridLayout();
-    QChartView *chartView = new QChartView;
+    Graph *coherenceGraphView = new Graph();
     QGraphicsView* buttonsView = new QGraphicsView();
     buttonsView->setLayout(buttonsGridLayout);
 
     // Graphic setups for the heart-rate chart, and the buttons layout
-    w.setupChart(chartView);
-    w.setupButtons(buttonsGridLayout);
+    w.setupChart(coherenceGraphView);
+    w.setupButtons(buttonsGridLayout, coherenceGraphView);
     w.setupMenuBox(buttonsGridLayout);
 
     // Add the chart and buttons the main layout
-    widgetLayout->addWidget(chartView, 1, 0);
+    widgetLayout->addWidget(coherenceGraphView, 1, 0);
     widgetLayout->addWidget(buttonsView, 2, 0);
     centralWidget->setLayout(widgetLayout);
 
