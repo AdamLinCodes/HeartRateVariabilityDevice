@@ -8,16 +8,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 }
 
-void MainWindow::setupChart(QChartView* chartView)
+void MainWindow::setupChart()
 {
 
     // Heart Rhythm chart stuff
+    coherenceGraphView = new Graph();
     QLineSeries* emptySeries = new QLineSeries;
 
 
-    chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->chart()->addSeries(emptySeries);
-    chartView->setFixedSize(450, 200);
+    coherenceGraphView->setRenderHint(QPainter::Antialiasing);
+    coherenceGraphView->chart()->addSeries(emptySeries);
+    coherenceGraphView->setFixedSize(450, 200);
 }
 
 void MainWindow::setupMenuBox(QGridLayout *buttonsGridLayout)
@@ -27,7 +28,7 @@ void MainWindow::setupMenuBox(QGridLayout *buttonsGridLayout)
     buttonsGridLayout->addWidget(menuBox, 0, 0);
 }
 
-void MainWindow::setupButtons(QGridLayout *buttonsGridLayout, Graph* coherenceGraphView)
+void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 {
     // button instantiations
     powerButton = new Button("On/Off");
@@ -71,9 +72,9 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout, Graph* coherenceGr
     QObject :: connect(menuButton, &Button::clickedWithCount, [](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(startStopButton, &Button::clickedWithCount, [coherenceGraphView](int count, const QString& name) {
+    QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
-        coherenceGraphView->setHighCoherence();
+        this->coherenceGraphView->setMidCoherence();
     });
     QObject :: connect(upButton, &Button::clickedWithCount, [](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
@@ -110,7 +111,13 @@ void MainWindow::turnButtonsOff(){
     rightButton->setEnabled(false);
 
     menuBox->setEnabled(false);
+    coherenceGraphView->setEmpty();
 }
+
+Graph* MainWindow::getCoherenceGraphView() {
+    return coherenceGraphView;
+}
+
 
 MainWindow::~MainWindow()
 {

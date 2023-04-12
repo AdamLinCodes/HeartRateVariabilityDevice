@@ -26,14 +26,16 @@ Graph::Graph(QWidget* parent) : QChartView(parent) {
     highCoherenceSeries->append(18, 2);
     highCoherenceSeries->append(19, 1);
     highCoherenceSeries->append(20, 2);
+    midCoherenceSeries->setPen(QPen(Qt::blue));
 
     midCoherenceSeries->append(0, 2);
-    midCoherenceSeries->append(1, 2);
-    midCoherenceSeries->append(2, 2);
-    midCoherenceSeries->append(3, 2);
-    midCoherenceSeries->append(4, 2);
-    midCoherenceSeries->append(5, 2);
-    midCoherenceSeries->append(6, 2);
+    midCoherenceSeries->append(1, 3);
+    midCoherenceSeries->append(2, 4);
+    midCoherenceSeries->append(3, 5);
+    midCoherenceSeries->append(4, 6);
+    midCoherenceSeries->append(5, 7);
+    midCoherenceSeries->append(6, 8);
+    midCoherenceSeries->setPen(QPen(Qt::green));
 
     lowCoherenceSeries->append(0, 2);
     lowCoherenceSeries->append(1, 2);
@@ -42,6 +44,7 @@ Graph::Graph(QWidget* parent) : QChartView(parent) {
     lowCoherenceSeries->append(4, 2);
     lowCoherenceSeries->append(5, 2);
     lowCoherenceSeries->append(6, 2);
+    lowCoherenceSeries->setPen(QPen(Qt::red));
 }
 
 Graph::~Graph() {
@@ -59,6 +62,7 @@ void Graph::setHighCoherence() {
     this->chart()->addSeries(highCoherenceSeries);
     this->setFixedSize(450, 200);
 }
+
 void Graph::setMidCoherence() {
     QAbstractSeries* oldSeries = this->chart()->series().at(0);
     this->chart()->removeSeries(oldSeries);
@@ -67,11 +71,21 @@ void Graph::setMidCoherence() {
     this->chart()->addSeries(midCoherenceSeries);
     this->setFixedSize(450, 200);
 }
+
 void Graph::setLowCoherence() {
     QAbstractSeries* oldSeries = this->chart()->series().at(0);
     this->chart()->removeSeries(oldSeries);
 
     // chartView->setRenderHint(QPainter::Antialiasing);
     this->chart()->addSeries(lowCoherenceSeries);
+    this->setFixedSize(450, 200);
+}
+
+void Graph::setEmpty() {
+    QAbstractSeries* oldSeries = this->chart()->series().at(0);
+    this->chart()->removeSeries(oldSeries);
+
+    // chartView->setRenderHint(QPainter::Antialiasing);
+    this->chart()->addSeries(new QLineSeries());
     this->setFixedSize(450, 200);
 }

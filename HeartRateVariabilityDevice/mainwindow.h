@@ -27,11 +27,12 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    void setupChart(QChartView*);
-    void setupButtons(QGridLayout*, Graph*);
+    void setupChart();
+    void setupButtons(QGridLayout*);
     void setupMenuBox(QGridLayout*);
     void turnButtonsOn();
     void turnButtonsOff();
+    Graph* getCoherenceGraphView();
     ~MainWindow();
 
 private:
@@ -43,6 +44,8 @@ private:
     Button* leftButton;
     Button* rightButton;
     Button* menuButton;
+
+    Graph* coherenceGraphView;
 
     Menu* menuBox;
 };
