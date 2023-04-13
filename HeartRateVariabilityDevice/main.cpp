@@ -17,13 +17,16 @@ int main(int argc, char *argv[])
     buttonsView->setLayout(buttonsGridLayout);
 
     // Graphic setups for the heart-rate chart, and the buttons layout
+    w.setupLights();
     w.setupChart();
     w.setupButtons(buttonsGridLayout);
     w.setupMenuBox(buttonsGridLayout);
 
     // Add the chart and buttons the main layout
+    widgetLayout->addWidget(w.getLightsView(), 0, 0);
     widgetLayout->addWidget(w.getCoherenceGraphView(), 1, 0);
     widgetLayout->addWidget(buttonsView, 2, 0);
+
     centralWidget->setLayout(widgetLayout);
 
     // display the mainwindow

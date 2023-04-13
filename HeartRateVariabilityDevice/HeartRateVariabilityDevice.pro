@@ -17,6 +17,7 @@ CONFIG += c++11
 SOURCES += \
     Button.cpp \
     Graph.cpp \
+    Lights.cpp \
     Menu.cpp \
     Session.cpp \
     main.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 HEADERS += \
     Button.h \
     Graph.h \
+    Lights.h \
     Menu.h \
     Session.h \
     mainwindow.h

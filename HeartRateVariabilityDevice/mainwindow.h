@@ -14,6 +14,7 @@
 #include "Button.h"
 #include "Menu.h"
 #include "Graph.h"
+#include "Lights.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,11 +29,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     void setupChart();
+    void setupLights();
     void setupButtons(QGridLayout*);
     void setupMenuBox(QGridLayout*);
     void turnButtonsOn();
     void turnButtonsOff();
     Graph* getCoherenceGraphView();
+    Lights* getLightsView();
     ~MainWindow();
 
 private:
@@ -46,6 +49,7 @@ private:
     Button* menuButton;
 
     Graph* coherenceGraphView;
+    Lights* lightsView;
 
     Menu* menuBox;
 };

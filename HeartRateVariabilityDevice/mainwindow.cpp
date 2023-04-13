@@ -21,6 +21,10 @@ void MainWindow::setupChart()
     coherenceGraphView->setFixedSize(450, 200);
 }
 
+void MainWindow::setupLights() {
+    lightsView = new Lights();
+}
+
 void MainWindow::setupMenuBox(QGridLayout *buttonsGridLayout)
 {
     menuBox = new Menu();
@@ -116,6 +120,10 @@ void MainWindow::turnButtonsOff(){
 
 Graph* MainWindow::getCoherenceGraphView() {
     return coherenceGraphView;
+}
+
+Lights* MainWindow::getLightsView() {
+    return lightsView;
 }
 
 
