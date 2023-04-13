@@ -147,8 +147,10 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         }
     });
     QObject :: connect(rightButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+
         coherenceGraphView->setEmpty();
         this->lightsView->allOff();
+
 
         if(this->currentSession < 0) {
             this->currentSession++;

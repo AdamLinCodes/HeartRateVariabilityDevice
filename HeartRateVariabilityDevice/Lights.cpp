@@ -18,7 +18,6 @@
 Lights::Lights(QWidget* parent) : QGraphicsView(parent) {
     LEDLayout = new QGridLayout();
     this->setLayout(LEDLayout);
-
     setupLEDs();
 }
 
@@ -77,9 +76,6 @@ void Lights::allOff(){
     midCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
     highCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
 }
-
-
-
 
 
 
