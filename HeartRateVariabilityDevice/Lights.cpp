@@ -39,10 +39,7 @@ void Lights::setupLEDs() {
     midCoherenceLED->setAlignment(Qt::AlignCenter);
     highCoherenceLED->setAlignment(Qt::AlignCenter);
 
-    inProgressLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
-    lowCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
-    midCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
-    highCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
+    allOff();
 
     inProgressLED->setFixedSize(70, 40);
     lowCoherenceLED->setFixedSize(70, 40);
@@ -59,20 +56,26 @@ void Lights::setupLEDs() {
 
 
 void Lights::inProgressOn() {
-
+    inProgressLED->setStyleSheet("QLabel { border-radius: 10px; background-color: red; }");
 }
 
 void Lights::lowCoherenceOn(){
-
+    lowCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: yellow; }");
 }
+
 void Lights::midCoherenceOn(){
-
+    midCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: green; }");
 }
+
 void Lights::highCoherenceOn(){
-
+    highCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: blue; }");
 }
-void Lights::allOff(){
 
+void Lights::allOff(){
+    inProgressLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
+    lowCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
+    midCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
+    highCoherenceLED->setStyleSheet("QLabel { border-radius: 10px; background-color: gray; }");
 }
 
 

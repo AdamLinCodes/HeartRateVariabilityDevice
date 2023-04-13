@@ -78,7 +78,13 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     });
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
-        this->coherenceGraphView->setMidCoherence();
+        if (count % 2 == 0) {
+            this->lightsView->allOff();
+            this->coherenceGraphView->setMidCoherence();
+        } else {
+            coherenceGraphView->setEmpty();
+            this->lightsView->inProgressOn();
+        }
     });
     QObject :: connect(upButton, &Button::clickedWithCount, [](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
