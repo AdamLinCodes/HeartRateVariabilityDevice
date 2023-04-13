@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     buttonsView->setLayout(buttonsGridLayout);
 
     // Graphic setups for the heart-rate chart, and the buttons layout
+    w.setupSession();
     w.setupLights();
     w.setupChart();
     w.setupButtons(buttonsGridLayout);

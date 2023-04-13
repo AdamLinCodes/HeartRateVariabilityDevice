@@ -15,6 +15,7 @@
 #include "Menu.h"
 #include "Graph.h"
 #include "Lights.h"
+#include "Session.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setupSession();
     void setupChart();
     void setupLights();
     void setupButtons(QGridLayout*);
@@ -50,6 +52,8 @@ private:
 
     Graph* coherenceGraphView;
     Lights* lightsView;
+
+    Session* session;
 
     Menu* menuBox;
 };

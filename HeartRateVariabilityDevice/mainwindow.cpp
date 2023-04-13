@@ -21,6 +21,10 @@ void MainWindow::setupChart()
     coherenceGraphView->setFixedSize(450, 200);
 }
 
+void MainWindow::setupSession() {
+    session = new Session();
+}
+
 void MainWindow::setupLights() {
     lightsView = new Lights();
 }
@@ -80,7 +84,20 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         qDebug() << name << "Button clicked " << count << " times";
         if (count % 2 == 0) {
             this->lightsView->allOff();
-            this->coherenceGraphView->setMidCoherence();
+            int coherence = this->session->createNewSession();
+
+            switch (coherence) {
+            case 1:
+                this->coherenceGraphView->setLowCoherence();
+                break;
+            case 2:
+                this->coherenceGraphView->setMidCoherence();
+                break;
+            default:
+                this->coherenceGraphView->setHighCoherence();
+                break;
+            }
+
         } else {
             coherenceGraphView->setEmpty();
             this->lightsView->inProgressOn();
@@ -112,7 +129,7 @@ void MainWindow::turnButtonsOn(){
     menuBox->setEnabled(true);
 }
 
-void MainWindow::turnButtonsOff(){
+void MainWindow::turnButtonsOff() {
     startStopButton->setEnabled(false);
     menuButton->setEnabled(false);
     upButton->setEnabled(false);

@@ -1,10 +1,12 @@
 #include "Session.h"
 
-Session::Session(QWidget* parent) : currLength(0.0), currAcheivement(0.0), currCoherence(0.0), currLevel("") {
+Session::Session(QWidget* parent) : QObject(parent), currLength(0.0), currAcheivement(0.0), currCoherence(0.0), currLevel("") {
+    logs = new QVector<QString>();
 }
 
 Session::~Session() {
     // destructor
+    delete logs;
 }
 
 void Session::setLength(double len){
@@ -35,6 +37,23 @@ double Session::getCoherence(){
     return currCoherence;
 }
 
-QString Session::getLevel(){
-    return currLevel;
+int Session::createNewSession(){
+    qsrand(QTime::currentTime().msec());
+
+    int coherenceLevel = qrand() % 3 + 1;
+
+    switch(coherenceLevel) {
+        case 1:
+            logs->append("low");
+            return 1;
+            break;
+        case 2:
+            logs->append("mid");
+            return 2;
+            break;
+        default:
+            logs->append("high");
+            return 3;
+            break;
+    }
 }

@@ -2,6 +2,7 @@
 #define SESSION_H
 
 #include <QComboBox>
+#include <QTime>
 
 class Session : public QObject {
     Q_OBJECT
@@ -19,9 +20,10 @@ class Session : public QObject {
         double getLength();
         double getAcheivement();
         double getCoherence();
-        QString getLevel();
+        int createNewSession();
 
     private:
+        QVector<QString> *logs;
         double currLength;
         double currAcheivement;
         double currCoherence;

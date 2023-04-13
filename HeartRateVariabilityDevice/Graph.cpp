@@ -38,12 +38,12 @@ Graph::Graph(QWidget* parent) : QChartView(parent) {
     midCoherenceSeries->setPen(QPen(Qt::green));
 
     lowCoherenceSeries->append(0, 2);
-    lowCoherenceSeries->append(1, 2);
-    lowCoherenceSeries->append(2, 2);
-    lowCoherenceSeries->append(3, 2);
-    lowCoherenceSeries->append(4, 2);
-    lowCoherenceSeries->append(5, 2);
-    lowCoherenceSeries->append(6, 2);
+    lowCoherenceSeries->append(1, 3);
+    lowCoherenceSeries->append(2, 4);
+    lowCoherenceSeries->append(3, 5);
+    lowCoherenceSeries->append(4, 6);
+    lowCoherenceSeries->append(5, 7);
+    lowCoherenceSeries->append(6, 8);
     lowCoherenceSeries->setPen(QPen(Qt::red));
 }
 
