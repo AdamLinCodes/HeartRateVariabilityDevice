@@ -34,7 +34,7 @@ void MainWindow::setupLights() {
 void MainWindow::setupMenuBox(QGridLayout *buttonsGridLayout)
 {
     menuBox = new Menu();
-    menuBox->setEnabled(false);
+    menuBox->setVisible(false);
     buttonsGridLayout->addWidget(menuBox, 0, 0);
 }
 
@@ -79,8 +79,11 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
             this->turnButtonsOff();
         }
     });
-    QObject :: connect(menuButton, &Button::clickedWithCount, [](int count, const QString& name) {
+    QObject :: connect(menuButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
+        this->menuBox->setVisible(!this->menuBox->isVisible());
+        this->getCoherenceGraphView()->hide();
+        //this->getLogsView()->show();
     });
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
@@ -187,8 +190,6 @@ void MainWindow::turnButtonsOn(){
     downButton->setEnabled(true);
     leftButton->setEnabled(true);
     rightButton->setEnabled(true);
-
-    menuBox->setEnabled(true);
 }
 
 void MainWindow::turnButtonsOff() {
@@ -199,7 +200,6 @@ void MainWindow::turnButtonsOff() {
     leftButton->setEnabled(false);
     rightButton->setEnabled(false);
 
-    menuBox->setEnabled(false);
     coherenceGraphView->setEmpty();
     lightsView->allOff();
 }
