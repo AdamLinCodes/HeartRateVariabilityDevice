@@ -88,18 +88,22 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 
             switch (coherence) {
             case 1:
+                this->lightsView->lowCoherenceOn();
                 this->coherenceGraphView->setLowCoherence();
                 break;
             case 2:
+                this->lightsView->midCoherenceOn();
                 this->coherenceGraphView->setMidCoherence();
                 break;
             default:
+                this->lightsView->highCoherenceOn();
                 this->coherenceGraphView->setHighCoherence();
                 break;
             }
 
         } else {
             coherenceGraphView->setEmpty();
+            this->lightsView->allOff();
             this->lightsView->inProgressOn();
         }
     });
