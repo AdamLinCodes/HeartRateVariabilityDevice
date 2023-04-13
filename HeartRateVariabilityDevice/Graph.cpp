@@ -26,7 +26,7 @@ Graph::Graph(QWidget* parent) : QChartView(parent) {
     highCoherenceSeries->append(18, 2);
     highCoherenceSeries->append(19, 1);
     highCoherenceSeries->append(20, 2);
-    midCoherenceSeries->setPen(QPen(Qt::blue));
+    highCoherenceSeries->setPen(QPen(Qt::blue));
 
     midCoherenceSeries->append(0, 2);
     midCoherenceSeries->append(1, 3);
