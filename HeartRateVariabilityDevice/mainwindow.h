@@ -33,15 +33,20 @@ public:
     void setupChart();
     void setupLights();
     void setupButtons(QGridLayout*);
-    void setupMenuBox(QGridLayout*);
+    void setupMenu(QGridLayout*);
     void turnButtonsOn();
     void turnButtonsOff();
     Graph* getCoherenceGraphView();
     Lights* getLightsView();
+    QGraphicsView* getMenuView();
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
+    Button* sessionButton;
+    Button* settingsButton;
+    Button* logsButton;
+
     Button* powerButton;
     Button* startStopButton;
     Button* upButton;
@@ -55,7 +60,7 @@ private:
 
     Session* session;
 
-    Menu* menuBox;
+    QGraphicsView* menuView;
     int currentSession;
 };
 #endif // MAINWINDOW_H

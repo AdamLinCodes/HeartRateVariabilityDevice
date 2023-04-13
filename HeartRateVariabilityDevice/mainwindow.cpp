@@ -20,6 +20,8 @@ void MainWindow::setupChart()
     coherenceGraphView->chart()->addSeries(emptySeries);
     coherenceGraphView->chart()->legend()->hide();
     coherenceGraphView->setFixedSize(450, 200);
+
+    coherenceGraphView->hide();
 }
 
 void MainWindow::setupSession() {
@@ -31,11 +33,49 @@ void MainWindow::setupLights() {
     lightsView = new Lights();
 }
 
-void MainWindow::setupMenuBox(QGridLayout *buttonsGridLayout)
+void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
 {
-    menuBox = new Menu();
-    menuBox->setVisible(false);
-    buttonsGridLayout->addWidget(menuBox, 0, 0);
+    menuView = new QGraphicsView();
+    QGridLayout* menuButtonsGridLayout = new QGridLayout();
+    menuView->setLayout(menuButtonsGridLayout);
+
+    sessionButton = new Button("Start Session");
+    settingsButton = new Button("Settings");
+    logsButton = new Button("Logs/History");
+
+    menuButtonsGridLayout->addWidget(sessionButton, 2, 2);
+    menuButtonsGridLayout->addWidget(logsButton, 4, 3);
+    menuButtonsGridLayout->addWidget(settingsButton, 4, 1);
+
+
+    sessionButton->setEnabled(false);
+    logsButton->setEnabled(false);
+    settingsButton->setEnabled(false);
+
+    QObject :: connect(sessionButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
+        this->getMenuView()->hide();
+        this->getCoherenceGraphView()->show();
+
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 2)->widget())->setEnabled(true);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(1, 2)->widget())->setEnabled(false);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 1)->widget())->setEnabled(false);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 3)->widget())->setEnabled(false);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(3, 2)->widget())->setEnabled(false);
+    });
+    QObject :: connect(logsButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
+        this->getMenuView()->hide();
+        this->getCoherenceGraphView()->show();
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 2)->widget())->setEnabled(false);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(1, 2)->widget())->setEnabled(false);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 1)->widget())->setEnabled(true);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 3)->widget())->setEnabled(true);
+        qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(3, 2)->widget())->setEnabled(false);
+    });
+    QObject :: connect(settingsButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+        qDebug() << name << "Button clicked " << count << " times";
+    });
 }
 
 void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
@@ -81,9 +121,9 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     });
     QObject :: connect(menuButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
-        this->menuBox->setVisible(!this->menuBox->isVisible());
+        lightsView->allOff();
         this->getCoherenceGraphView()->hide();
-        //this->getLogsView()->show();
+        this->getMenuView()->show();
     });
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
@@ -184,15 +224,18 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 
 void MainWindow::turnButtonsOn(){
 
-    startStopButton->setEnabled(true);
+    sessionButton->setEnabled(true);
+    settingsButton->setEnabled(true);
+    logsButton->setEnabled(true);
     menuButton->setEnabled(true);
-    upButton->setEnabled(true);
-    downButton->setEnabled(true);
-    leftButton->setEnabled(true);
-    rightButton->setEnabled(true);
 }
 
 void MainWindow::turnButtonsOff() {
+
+    sessionButton->setEnabled(false);
+    settingsButton->setEnabled(false);
+    logsButton->setEnabled(false);
+
     startStopButton->setEnabled(false);
     menuButton->setEnabled(false);
     upButton->setEnabled(false);
@@ -210,6 +253,10 @@ Graph* MainWindow::getCoherenceGraphView() {
 
 Lights* MainWindow::getLightsView() {
     return lightsView;
+}
+
+QGraphicsView* MainWindow::getMenuView(){
+    return menuView;
 }
 
 MainWindow::~MainWindow()
