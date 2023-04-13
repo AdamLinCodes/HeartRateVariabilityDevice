@@ -5,46 +5,61 @@ Graph::Graph(QWidget* parent) : QChartView(parent) {
     midCoherenceSeries = new QLineSeries;
     lowCoherenceSeries = new QLineSeries;
 
-    highCoherenceSeries->append(0, 2);
-    highCoherenceSeries->append(1, 3);
-    highCoherenceSeries->append(2, 2);
-    highCoherenceSeries->append(3, 1);
-    highCoherenceSeries->append(4, 2);
-    highCoherenceSeries->append(5, 3);
-    highCoherenceSeries->append(6, 2);
-    highCoherenceSeries->append(7, 1);
-    highCoherenceSeries->append(8, 2);
-    highCoherenceSeries->append(9, 3);
-    highCoherenceSeries->append(10, 2);
-    highCoherenceSeries->append(11, 1);
-    highCoherenceSeries->append(12, 2);
-    highCoherenceSeries->append(13, 3);
-    highCoherenceSeries->append(14, 2);
-    highCoherenceSeries->append(15, 1);
-    highCoherenceSeries->append(16, 2);
-    highCoherenceSeries->append(17, 3);
-    highCoherenceSeries->append(18, 2);
-    highCoherenceSeries->append(19, 1);
-    highCoherenceSeries->append(20, 2);
-    highCoherenceSeries->setPen(QPen(Qt::blue));
+    // Set the range of the random numbers for each coherence level
+  const qreal highRangeMin = 0.5;
+  const qreal highRangeMax = 1.0;
 
-    midCoherenceSeries->append(0, 2);
-    midCoherenceSeries->append(1, 3);
-    midCoherenceSeries->append(2, 4);
-    midCoherenceSeries->append(3, 5);
-    midCoherenceSeries->append(4, 6);
-    midCoherenceSeries->append(5, 7);
-    midCoherenceSeries->append(6, 8);
-    midCoherenceSeries->setPen(QPen(Qt::green));
+  const qreal medhRangeMin = 0.5;
+  const qreal medhRangeMax = 53.75;
 
-    lowCoherenceSeries->append(0, 2);
-    lowCoherenceSeries->append(1, 3);
-    lowCoherenceSeries->append(2, 4);
-    lowCoherenceSeries->append(3, 5);
-    lowCoherenceSeries->append(4, 6);
-    lowCoherenceSeries->append(5, 7);
-    lowCoherenceSeries->append(6, 8);
-    lowCoherenceSeries->setPen(QPen(Qt::red));
+  const qreal lowRangeMin = 1.5;
+  const qreal lowRangeMax = 183.5;
+
+  // Add the randomized values to the high coherence QLineSeries
+
+  int avgMid = 2;
+  bool increase = true;
+  for (int i = 0; i < 100; i++) {
+      qreal randomValue = qrand() / (qreal)RAND_MAX * (highRangeMax - highRangeMin) + highRangeMin;
+      if (i % 2 == 0){
+          highCoherenceSeries->append(i, avgMid);
+      }else if (increase){
+          highCoherenceSeries->append(i, avgMid + randomValue);
+          increase = !increase;
+      }else{
+          highCoherenceSeries->append(i, avgMid - randomValue);
+          increase = !increase;
+      }
+  }
+
+  increase = true;
+  for (int i = 0; i < 100; i++) {
+      qreal randomValue = qrand() / (qreal)RAND_MAX * (medhRangeMax - medhRangeMin) + medhRangeMin;
+      if (i % 2 == 0){
+          midCoherenceSeries->append(i, avgMid);
+      }else if (increase){
+          midCoherenceSeries->append(i, avgMid + randomValue);
+          increase = !increase;
+      }else{
+          midCoherenceSeries->append(i, avgMid - randomValue);
+          increase = !increase;
+      }
+  }
+
+  increase = true;
+  avgMid = 45;
+  for (int i = 0; i < 100; i++) {
+      qreal randomValue = qrand() / (qreal)RAND_MAX * (lowRangeMax - lowRangeMin) + lowRangeMin;
+      if (i % 2 == 0){
+          lowCoherenceSeries->append(i, randomValue);
+      }else if (increase){
+          lowCoherenceSeries->append(i, avgMid + randomValue);
+          increase = !increase;
+      }else{
+          lowCoherenceSeries->append(i, avgMid - randomValue);
+          increase = !increase;
+      }
+  }
 }
 
 Graph::~Graph() {

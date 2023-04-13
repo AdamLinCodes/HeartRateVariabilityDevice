@@ -1,6 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <QtMath>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
 #include <QPainter>
