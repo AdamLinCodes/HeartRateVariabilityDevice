@@ -57,3 +57,15 @@ int Session::createNewSession(){
             break;
     }
 }
+
+int Session::getNumSessions() {
+    return logs->size();
+}
+
+QVector<QString>* Session::getLogs() {
+    return logs;
+}
+
+
+
+

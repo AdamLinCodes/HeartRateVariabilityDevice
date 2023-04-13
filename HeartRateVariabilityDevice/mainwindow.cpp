@@ -18,10 +18,12 @@ void MainWindow::setupChart()
 
     coherenceGraphView->setRenderHint(QPainter::Antialiasing);
     coherenceGraphView->chart()->addSeries(emptySeries);
+    coherenceGraphView->chart()->legend()->hide();
     coherenceGraphView->setFixedSize(450, 200);
 }
 
 void MainWindow::setupSession() {
+    currentSession = -1;
     session = new Session();
 }
 
@@ -85,6 +87,7 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         if (count % 2 == 0) {
             this->lightsView->allOff();
             int coherence = this->session->createNewSession();
+            this->currentSession = this->session->getNumSessions();
 
             switch (coherence) {
             case 1:
@@ -113,11 +116,64 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     QObject :: connect(downButton, &Button::clickedWithCount, [](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
     });
-    QObject :: connect(leftButton, &Button::clickedWithCount, [](int count, const QString& name) {
-        qDebug() << name << "Button clicked " << count << " times";
+    QObject :: connect(leftButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+        coherenceGraphView->setEmpty();
+        this->lightsView->allOff();
+
+        if(this->currentSession >= this->session->getNumSessions() - 1) {
+            this->currentSession--;
+        }
+
+
+        if(this->currentSession >= 0) {
+            QString coherence = this->session->getLogs()->at(this->currentSession);
+            this->currentSession--;
+
+            if (coherence == "low") {
+                this->lightsView->lowCoherenceOn();
+                this->coherenceGraphView->setLowCoherence();
+            }
+            else if (coherence == "mid") {
+                this->lightsView->midCoherenceOn();
+                this->coherenceGraphView->setMidCoherence();
+            }
+            else {
+                this->lightsView->highCoherenceOn();
+                this->coherenceGraphView->setHighCoherence();
+            }
+        }
+        else {
+            qDebug() << "End of the logs reached";
+        }
     });
-    QObject :: connect(rightButton, &Button::clickedWithCount, [](int count, const QString& name) {
-        qDebug() << name << "Button clicked " << count << " times";
+    QObject :: connect(rightButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+        coherenceGraphView->setEmpty();
+        this->lightsView->allOff();
+
+        if(this->currentSession < 0) {
+            this->currentSession++;
+        }
+
+        if(this->currentSession <= this->session->getNumSessions() - 1) {
+            QString coherence = this->session->getLogs()->at(this->currentSession);
+            this->currentSession++;
+
+            if (coherence == "low") {
+                this->lightsView->lowCoherenceOn();
+                this->coherenceGraphView->setLowCoherence();
+            }
+            else if (coherence == "mid") {
+                this->lightsView->midCoherenceOn();
+                this->coherenceGraphView->setMidCoherence();
+            }
+            else {
+                this->lightsView->highCoherenceOn();
+                this->coherenceGraphView->setHighCoherence();
+            }
+        }
+        else {
+            qDebug() << "Back at the top of the logs";
+        }
     });
 }
 
@@ -143,6 +199,7 @@ void MainWindow::turnButtonsOff() {
 
     menuBox->setEnabled(false);
     coherenceGraphView->setEmpty();
+    lightsView->allOff();
 }
 
 Graph* MainWindow::getCoherenceGraphView() {
@@ -152,7 +209,6 @@ Graph* MainWindow::getCoherenceGraphView() {
 Lights* MainWindow::getLightsView() {
     return lightsView;
 }
-
 
 MainWindow::~MainWindow()
 {

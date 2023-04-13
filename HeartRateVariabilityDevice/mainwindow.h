@@ -56,5 +56,6 @@ private:
     Session* session;
 
     Menu* menuBox;
+    int currentSession;
 };
 #endif // MAINWINDOW_H

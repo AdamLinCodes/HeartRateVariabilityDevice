@@ -21,6 +21,8 @@ class Session : public QObject {
         double getAcheivement();
         double getCoherence();
         int createNewSession();
+        int getNumSessions();
+        QVector<QString>* getLogs();
 
     private:
         QVector<QString> *logs;
