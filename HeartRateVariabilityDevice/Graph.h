@@ -19,6 +19,8 @@ class Graph : public QChartView {
         void setMidCoherence();
         void setLowCoherence();
         void setEmpty();
+        static QLineSeries* newCoherence(int level);
+
 
     private:
         QLineSeries* lowCoherenceSeries;

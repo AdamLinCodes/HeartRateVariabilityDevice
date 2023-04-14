@@ -3,6 +3,8 @@
 
 #include <QComboBox>
 #include <QTime>
+#include "SessionLog.h"
+#include "Graph.h"
 
 class Session : public QObject {
     Q_OBJECT
@@ -26,6 +28,7 @@ class Session : public QObject {
 
     private:
         QVector<QString> *logs;
+        QVector<SessionLog*> *logs2;
         double currLength;
         double currAcheivement;
         double currCoherence;

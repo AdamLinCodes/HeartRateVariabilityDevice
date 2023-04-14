@@ -2,11 +2,13 @@
 
 Session::Session(QWidget* parent) : QObject(parent), currLength(0.0), currAcheivement(0.0), currCoherence(0.0), currLevel("") {
     logs = new QVector<QString>();
+    logs2 = new QVector<SessionLog*>();
 }
 
 Session::~Session() {
     // destructor
     delete logs;
+    delete logs2;
 }
 
 void Session::setLength(double len){
@@ -45,21 +47,25 @@ int Session::createNewSession(){
     switch(coherenceLevel) {
         case 1:
             logs->append("low");
+            logs2->append(new SessionLog(Graph::newCoherence(1), 1));
             return 1;
             break;
         case 2:
             logs->append("mid");
+            logs2->append(new SessionLog(Graph::newCoherence(2), 2));
             return 2;
             break;
         default:
             logs->append("high");
+            logs2->append(new SessionLog(Graph::newCoherence(3), 3));
             return 3;
             break;
     }
 }
 
 int Session::getNumSessions() {
-    return logs->size();
+    return logs2->size();
+    // return logs->size();
 }
 
 QVector<QString>* Session::getLogs() {

@@ -20,6 +20,7 @@ SOURCES += \
     Graph.cpp \
     Lights.cpp \
     Session.cpp \
+    SessionLog.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -29,6 +30,7 @@ HEADERS += \
     Graph.h \
     Lights.h \
     Session.h \
+    SessionLog.h \
     mainwindow.h
 
 FORMS += \
