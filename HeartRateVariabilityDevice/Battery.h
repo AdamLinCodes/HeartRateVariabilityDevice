@@ -9,7 +9,7 @@ class Battery : public QProgressBar {
 
     public:
         Battery(QWidget* parent = nullptr);
-        void losePower();
+        void losePower(int);
         void recharge();
         virtual ~Battery();
         bool isDead();

@@ -43,7 +43,7 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
     QGridLayout* menuButtonsGridLayout = new QGridLayout();
     menuView->setLayout(menuButtonsGridLayout);
 
-    sessionButton = new Button("Start Session");
+    sessionButton = new Button("Run Session");
     settingsButton = new Button("Settings");
     logsButton = new Button("Logs/History");
 
@@ -58,6 +58,7 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
 
     QObject :: connect(sessionButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
+        this->battery->losePower(1);
         this->getMenuView()->hide();
         this->getCoherenceGraphView()->show();
 
@@ -66,9 +67,13 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
         qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 1)->widget())->setEnabled(false);
         qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 3)->widget())->setEnabled(false);
         qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(3, 2)->widget())->setEnabled(false);
+        if (this->battery->isDead()) {
+            this->powerOff();
+        }
     });
     QObject :: connect(logsButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
+        this->battery->losePower(1);
         this->getMenuView()->hide();
         this->getCoherenceGraphView()->show();
         qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 2)->widget())->setEnabled(false);
@@ -76,6 +81,9 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
         qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 1)->widget())->setEnabled(true);
         qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(2, 3)->widget())->setEnabled(true);
         qobject_cast<QPushButton*>(sessionButtonsGridLayout->itemAtPosition(3, 2)->widget())->setEnabled(false);
+        if (this->battery->isDead()) {
+            this->powerOff();
+        }
     });
     QObject :: connect(settingsButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
@@ -124,16 +132,20 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         }
     });
     QObject :: connect(menuButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+        this->battery->losePower(1);
         qDebug() << name << "Button clicked " << count << " times";
         lightsView->allOff();
         this->getCoherenceGraphView()->hide();
         this->getMenuView()->show();
+        if (this->battery->isDead()) {
+            this->powerOff();
+        }
     });
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
 
         if (count % 2 == 0) {
-            this->battery->losePower();
+            this->battery->losePower(10);
             qDebug() << this->battery->isDead();
 
             this->lightsView->allOff();
@@ -172,6 +184,7 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         qDebug() << name << "Button clicked " << count << " times";
     });
     QObject :: connect(leftButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+        this->battery->losePower(2);
         coherenceGraphView->setEmpty();
         this->lightsView->allOff();
 
@@ -200,9 +213,14 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         else {
             qDebug() << "End of the logs reached";
         }
+
+        if (this->battery->isDead()) {
+            this->powerOff();
+        }
+
     });
     QObject :: connect(rightButton, &Button::clickedWithCount, [this](int count, const QString& name) {
-
+        this->battery->losePower(2);
         coherenceGraphView->setEmpty();
         this->lightsView->allOff();
 
@@ -230,6 +248,10 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         }
         else {
             qDebug() << "Back at the top of the logs";
+        }
+
+        if (this->battery->isDead()) {
+            this->powerOff();
         }
     });
 }

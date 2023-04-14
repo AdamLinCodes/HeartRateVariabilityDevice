@@ -12,7 +12,6 @@
 #include <QPainter>
 #include <QComboBox>
 #include "Button.h"
-#include "Menu.h"
 #include "Graph.h"
 #include "Lights.h"
 #include "Session.h"

@@ -9,9 +9,9 @@ Battery::Battery(QWidget* parent) : QProgressBar(parent) {
 
 Battery::~Battery() {}
 
-void Battery::losePower() {
-    setValue(this->value() - 10);
-    if (this->value() == 0) {
+void Battery::losePower(int decrement) {
+    setValue(this->value() - decrement);
+    if (this->value() <= 0) {
         dead = true;
     }
 }
