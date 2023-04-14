@@ -33,6 +33,10 @@ void MainWindow::setupLights() {
     lightsView = new Lights();
 }
 
+void MainWindow::setupBattery() {
+    battery = new Battery();
+}
+
 void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
 {
     menuView = new QGraphicsView();
@@ -128,6 +132,8 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
         if (count % 2 == 0) {
+            this->battery->losePower();
+
             this->lightsView->allOff();
             int coherence = this->session->createNewSession();
             this->currentSession = this->session->getNumSessions();
@@ -255,6 +261,9 @@ Lights* MainWindow::getLightsView() {
     return lightsView;
 }
 
+Battery* MainWindow::getBattery() {
+    return battery;
+}
 QGraphicsView* MainWindow::getMenuView(){
     return menuView;
 }

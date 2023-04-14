@@ -16,6 +16,7 @@
 #include "Graph.h"
 #include "Lights.h"
 #include "Session.h"
+#include "Battery.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,6 +33,7 @@ public:
     void setupSession();
     void setupChart();
     void setupLights();
+    void setupBattery();
     void setupButtons(QGridLayout*);
     void setupMenu(QGridLayout*);
     void turnButtonsOn();
@@ -39,6 +41,7 @@ public:
     Graph* getCoherenceGraphView();
     Lights* getLightsView();
     QGraphicsView* getMenuView();
+    Battery* getBattery();
     ~MainWindow();
 
 private:
@@ -57,9 +60,8 @@ private:
 
     Graph* coherenceGraphView;
     Lights* lightsView;
-
     Session* session;
-
+    Battery* battery;
     QGraphicsView* menuView;
     int currentSession;
 };
