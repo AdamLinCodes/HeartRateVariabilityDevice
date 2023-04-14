@@ -4,6 +4,7 @@ Battery::Battery(QWidget* parent) : QProgressBar(parent) {
     setMaximum(100);
     setMinimum(0);
     setValue(100);
+    dead = false;
 }
 
 Battery::~Battery() {}

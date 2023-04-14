@@ -118,9 +118,9 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     QObject :: connect(powerButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
         if ((count % 2) == 1){
-            this->turnButtonsOn();
+            this->powerOn();
         }else{
-            this->turnButtonsOff();
+            this->powerOff();
         }
     });
     QObject :: connect(menuButton, &Button::clickedWithCount, [this](int count, const QString& name) {
@@ -131,8 +131,10 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     });
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         qDebug() << name << "Button clicked " << count << " times";
+
         if (count % 2 == 0) {
             this->battery->losePower();
+            qDebug() << this->battery->isDead();
 
             this->lightsView->allOff();
             int coherence = this->session->createNewSession();
@@ -157,6 +159,10 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
             coherenceGraphView->setEmpty();
             this->lightsView->allOff();
             this->lightsView->inProgressOn();
+        }
+
+        if (this->battery->isDead()) {
+            this->powerOff();
         }
     });
     QObject :: connect(upButton, &Button::clickedWithCount, [](int count, const QString& name) {
@@ -228,15 +234,18 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     });
 }
 
-void MainWindow::turnButtonsOn(){
-
-    sessionButton->setEnabled(true);
-    settingsButton->setEnabled(true);
-    logsButton->setEnabled(true);
-    menuButton->setEnabled(true);
+void MainWindow::powerOn(){
+    if (!this->battery->isDead()) {
+        sessionButton->setEnabled(true);
+        settingsButton->setEnabled(true);
+        logsButton->setEnabled(true);
+        menuButton->setEnabled(true);
+    } else {
+        qDebug() << "Device is dead";
+    }
 }
 
-void MainWindow::turnButtonsOff() {
+void MainWindow::powerOff() {
 
     sessionButton->setEnabled(false);
     settingsButton->setEnabled(false);
@@ -264,6 +273,7 @@ Lights* MainWindow::getLightsView() {
 Battery* MainWindow::getBattery() {
     return battery;
 }
+
 QGraphicsView* MainWindow::getMenuView(){
     return menuView;
 }

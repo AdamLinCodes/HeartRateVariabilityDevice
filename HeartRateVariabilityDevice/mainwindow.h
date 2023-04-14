@@ -36,8 +36,8 @@ public:
     void setupBattery();
     void setupButtons(QGridLayout*);
     void setupMenu(QGridLayout*);
-    void turnButtonsOn();
-    void turnButtonsOff();
+    void powerOn();
+    void powerOff();
     Graph* getCoherenceGraphView();
     Lights* getLightsView();
     QGraphicsView* getMenuView();
