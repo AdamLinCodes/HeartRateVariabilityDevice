@@ -3,8 +3,11 @@
 
 #include <QComboBox>
 #include <QTime>
+#include <QtCharts/QLineSeries>
 #include "SessionLog.h"
 #include "Graph.h"
+
+QT_CHARTS_USE_NAMESPACE
 
 class Session : public QObject {
     Q_OBJECT
@@ -22,9 +25,9 @@ class Session : public QObject {
         double getLength();
         double getAcheivement();
         double getCoherence();
-        int createNewSession();
+        QLineSeries* createNewSession();
         int getNumSessions();
-        QVector<QString>* getLogs();
+        QVector<SessionLog*>* getLogs();
 
     private:
         QVector<QString> *logs;

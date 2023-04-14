@@ -39,28 +39,30 @@ double Session::getCoherence(){
     return currCoherence;
 }
 
-int Session::createNewSession(){
+QLineSeries* Session::createNewSession(){
     qsrand(QTime::currentTime().msec());
 
     int coherenceLevel = qrand() % 3 + 1;
+    QLineSeries* series;
 
     switch(coherenceLevel) {
         case 1:
             logs->append("low");
-            logs2->append(new SessionLog(Graph::newCoherence(1), 1));
-            return 1;
+            series = Graph::newCoherence(1);
+            logs2->append(new SessionLog(series, 1));
             break;
         case 2:
             logs->append("mid");
-            logs2->append(new SessionLog(Graph::newCoherence(2), 2));
-            return 2;
+            series = Graph::newCoherence(2);
+            logs2->append(new SessionLog(series, 2));
             break;
         default:
             logs->append("high");
-            logs2->append(new SessionLog(Graph::newCoherence(3), 3));
-            return 3;
+            series = Graph::newCoherence(3);
+            logs2->append(new SessionLog(series, 3));
             break;
     }
+    return series;
 }
 
 int Session::getNumSessions() {
@@ -68,8 +70,8 @@ int Session::getNumSessions() {
     // return logs->size();
 }
 
-QVector<QString>* Session::getLogs() {
-    return logs;
+QVector<SessionLog*>* Session::getLogs() {
+    return logs2;
 }
 
 

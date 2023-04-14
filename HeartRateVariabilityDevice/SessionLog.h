@@ -11,6 +11,8 @@ class SessionLog : public QObject {
 
     public:
         SessionLog(QLineSeries* series, int level, QObject* parent = nullptr);
+        int getLevel();
+        QLineSeries* getSeries();
         virtual ~SessionLog();
 
     private:

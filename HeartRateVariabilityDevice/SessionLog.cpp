@@ -9,3 +9,11 @@ SessionLog::SessionLog(QLineSeries* series, int level, QObject* parent) :
 SessionLog::~SessionLog() {
     delete series;
 }
+
+
+int SessionLog::getLevel() {
+    return level;
+}
+QLineSeries* SessionLog::getSeries() {
+    return series;
+}

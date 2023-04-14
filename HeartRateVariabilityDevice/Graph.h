@@ -5,6 +5,7 @@
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
 #include <QPainter>
+#include <QTime>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -14,18 +15,9 @@ class Graph : public QChartView {
     public:
         Graph(QWidget* parent = nullptr);
         virtual ~Graph();
-
-        void setHighCoherence();
-        void setMidCoherence();
-        void setLowCoherence();
+        void setCoherence(QLineSeries*);
         void setEmpty();
         static QLineSeries* newCoherence(int level);
-
-
-    private:
-        QLineSeries* lowCoherenceSeries;
-        QLineSeries* midCoherenceSeries;
-        QLineSeries* highCoherenceSeries;
 
 };
 

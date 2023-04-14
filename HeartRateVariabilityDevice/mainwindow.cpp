@@ -149,21 +149,20 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
             qDebug() << this->battery->isDead();
 
             this->lightsView->allOff();
-            int coherence = this->session->createNewSession();
+            QLineSeries* series = this->session->createNewSession();
             this->currentSession = this->session->getNumSessions();
+            this->coherenceGraphView->setCoherence(series);
 
+            int coherence = this->session->getLogs()->last()->getLevel();
             switch (coherence) {
             case 1:
                 this->lightsView->lowCoherenceOn();
-                this->coherenceGraphView->setLowCoherence();
                 break;
             case 2:
                 this->lightsView->midCoherenceOn();
-                this->coherenceGraphView->setMidCoherence();
                 break;
             default:
                 this->lightsView->highCoherenceOn();
-                this->coherenceGraphView->setHighCoherence();
                 break;
             }
 
@@ -194,20 +193,21 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 
 
         if(this->currentSession >= 0) {
-            QString coherence = this->session->getLogs()->at(this->currentSession);
+            SessionLog* sessionLog = this->session->getLogs()->at(this->currentSession);
+
             this->currentSession--;
 
-            if (coherence == "low") {
+            this->coherenceGraphView->setCoherence(sessionLog->getSeries());
+            int coherence = sessionLog->getLevel();
+
+            if (coherence == 1) {
                 this->lightsView->lowCoherenceOn();
-                this->coherenceGraphView->setLowCoherence();
             }
-            else if (coherence == "mid") {
+            else if (coherence == 2) {
                 this->lightsView->midCoherenceOn();
-                this->coherenceGraphView->setMidCoherence();
             }
             else {
                 this->lightsView->highCoherenceOn();
-                this->coherenceGraphView->setHighCoherence();
             }
         }
         else {
@@ -230,20 +230,21 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         }
 
         if(this->currentSession <= this->session->getNumSessions() - 1) {
-            QString coherence = this->session->getLogs()->at(this->currentSession);
+            SessionLog* sessionLog = this->session->getLogs()->at(this->currentSession);
+
             this->currentSession++;
 
-            if (coherence == "low") {
+            this->coherenceGraphView->setCoherence(sessionLog->getSeries());
+            int coherence = sessionLog->getLevel();
+
+            if (coherence == 1) {
                 this->lightsView->lowCoherenceOn();
-                this->coherenceGraphView->setLowCoherence();
             }
-            else if (coherence == "mid") {
+            else if (coherence == 2) {
                 this->lightsView->midCoherenceOn();
-                this->coherenceGraphView->setMidCoherence();
             }
             else {
                 this->lightsView->highCoherenceOn();
-                this->coherenceGraphView->setHighCoherence();
             }
         }
         else {
