@@ -11,6 +11,7 @@
 #include <QtCharts/QChartView>
 #include <QPainter>
 #include <QComboBox>
+#include <QRadioButton>
 #include "Button.h"
 #include "Graph.h"
 #include "Lights.h"
@@ -48,6 +49,10 @@ private:
     Button* sessionButton;
     Button* settingsButton;
     Button* logsButton;
+
+    QRadioButton* sessionRadioButton;
+    QRadioButton* settingsRadioButton;
+    QRadioButton* logsRadioButton;
 
     Button* powerButton;
     Button* startStopButton;

@@ -43,6 +43,72 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
     QGridLayout* menuButtonsGridLayout = new QGridLayout();
     menuView->setLayout(menuButtonsGridLayout);
 
+    //NEW CODE HERE
+
+
+    upButton = new Button("");
+    downButton = new Button("");
+
+
+    QPixmap pixmap3(":/res/upButton.svg");
+    QIcon icon3(pixmap3);
+    upButton->setIcon(icon3);
+
+    QPixmap pixmap4(":/res/downButton.svg");
+    QIcon icon4(pixmap4);
+    downButton->setIcon(icon4);
+
+
+    sessionButtonsGridLayout->addWidget(downButton, 3, 3);
+    sessionButtonsGridLayout->addWidget(upButton, 1, 3);
+
+
+    sessionRadioButton = new QRadioButton("Run Session");
+    logsRadioButton = new QRadioButton("Logs/History");
+    settingsRadioButton = new QRadioButton("Settings");
+
+    sessionRadioButton->setChecked(true);
+
+    menuButtonsGridLayout->addWidget(sessionRadioButton, 2, 2);
+    menuButtonsGridLayout->addWidget(logsRadioButton, 3, 2);
+    menuButtonsGridLayout->addWidget(settingsRadioButton, 4, 2);
+
+    menuButtonsGridLayout->setColumnStretch(0,1);
+    menuButtonsGridLayout->setColumnStretch(1,1);
+    menuButtonsGridLayout->setColumnStretch(2,2);
+    menuButtonsGridLayout->setColumnStretch(3,1);
+    menuButtonsGridLayout->setColumnStretch(4,1);
+
+    QObject :: connect(upButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
+        qDebug() << "Up Button clicked " << count << " times";
+        if (settingsRadioButton->isChecked()){
+            logsRadioButton->setChecked(true);
+        }else if (logsRadioButton->isChecked()){
+            sessionRadioButton->setChecked(true);
+        }else{
+            settingsRadioButton->setChecked(true);
+        }
+    });
+    QObject :: connect(downButton, &Button::clickedWithCount, [this](int count, const QString& name) {
+        qDebug() << "Down Button clicked " << count << " times";
+        if (sessionRadioButton->isChecked()){
+            logsRadioButton->setChecked(true);
+        }else if (logsRadioButton->isChecked()){
+            settingsRadioButton->setChecked(true);
+        }else{
+            sessionRadioButton->setChecked(true);
+        }
+    });
+
+    upButton->setEnabled(false);
+    downButton->setEnabled(false);
+
+
+
+
+    /*
+
+
     sessionButton = new Button("Run Session");
     settingsButton = new Button("Settings");
     logsButton = new Button("Logs/History");
@@ -95,6 +161,8 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
         qDebug() << name << "Button clicked " << count << " times";
         trackSession.append("Settings");
     });
+
+    */
 }
 
 void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
@@ -105,8 +173,6 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     menuButton = new Button("");
     goBackButton = new Button("");
 
-    upButton = new Button("");
-    downButton = new Button("");
     leftButton = new Button("");
     rightButton = new Button("");
 
@@ -117,14 +183,6 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     QPixmap pixmap2(":/res/menuButton.svg");
     QIcon icon2(pixmap2);
     menuButton->setIcon(icon2);
-
-    QPixmap pixmap3(":/res/upButton.svg");
-    QIcon icon3(pixmap3);
-    upButton->setIcon(icon3);
-
-    QPixmap pixmap4(":/res/downButton.svg");
-    QIcon icon4(pixmap4);
-    downButton->setIcon(icon4);
 
     QPixmap pixmap5(":/res/leftButton.svg");
     QIcon icon5(pixmap5);
@@ -141,8 +199,6 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     //Have all button initially disabled (except powerbutton)
     startStopButton->setEnabled(false);
     menuButton->setEnabled(false);
-    upButton->setEnabled(false);
-    downButton->setEnabled(false);
     leftButton->setEnabled(false);
     rightButton->setEnabled(false);
     goBackButton->setEnabled(false);
@@ -154,10 +210,8 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     buttonsGridLayout->addWidget(menuButton, 4, 4);
     buttonsGridLayout->addWidget(goBackButton, 1, 1);
 
-    buttonsGridLayout->addWidget(upButton, 1, 3);
     buttonsGridLayout->addWidget(leftButton, 2, 2);
     buttonsGridLayout->addWidget(rightButton, 2, 4);
-    buttonsGridLayout->addWidget(downButton, 3, 3);
 
 
     // connecting objects to slots
@@ -223,8 +277,6 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
                 this->getCoherenceGraphView()->show();
 
                 startStopButton->setEnabled(true);
-                upButton->setEnabled(false);
-                downButton->setEnabled(false);
                 leftButton->setEnabled(false);
                 rightButton->setEnabled(false);
 
@@ -238,8 +290,6 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
                 this->getCoherenceGraphView()->show();
 
                 startStopButton->setEnabled(false);
-                upButton->setEnabled(false);
-                downButton->setEnabled(false);
                 leftButton->setEnabled(true);
                 rightButton->setEnabled(true);
 
@@ -249,12 +299,6 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
             }
             trackSession.removeLast();
         }
-    });
-    QObject :: connect(upButton, &Button::clickedWithCount, [](int count, const QString& name) {
-        qDebug() << name << "Up Button clicked " << count << " times";
-    });
-    QObject :: connect(downButton, &Button::clickedWithCount, [](int count, const QString& name) {
-        qDebug() << name << "Down Button clicked " << count << " times";
     });
     QObject :: connect(leftButton, &Button::clickedWithCount, [this](int count, const QString& name) {
         this->battery->losePower(2);
@@ -333,11 +377,10 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 
 void MainWindow::powerOn(){
     if (!this->battery->isDead()) {
-        sessionButton->setEnabled(true);
-        settingsButton->setEnabled(true);
-        logsButton->setEnabled(true);
         menuButton->setEnabled(true);
         goBackButton->setEnabled(true);
+        upButton->setEnabled(true);
+        downButton->setEnabled(true);
     } else {
         qDebug() << "Device is dead";
     }
