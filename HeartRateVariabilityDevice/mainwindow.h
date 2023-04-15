@@ -56,6 +56,7 @@ private:
     Button* leftButton;
     Button* rightButton;
     Button* menuButton;
+    Button* goBackButton;
 
     Graph* coherenceGraphView;
     Lights* lightsView;
@@ -63,5 +64,6 @@ private:
     Battery* battery;
     QGraphicsView* menuView;
     int currentSession;
+    QStringList trackSession;
 };
 #endif // MAINWINDOW_H

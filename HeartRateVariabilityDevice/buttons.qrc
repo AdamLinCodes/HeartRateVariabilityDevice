@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/backButton.svg</file>
+        <file>res/chargeButton.svg</file>
+        <file>res/downButton.svg</file>
+        <file>res/leftButton.svg</file>
+        <file>res/menuButton.svg</file>
+        <file>res/okButton.svg</file>
+        <file>res/powerButton.svg</file>
+        <file>res/rightButton.svg</file>
+        <file>res/upButton.svg</file>
+    </qresource>
+</RCC>
