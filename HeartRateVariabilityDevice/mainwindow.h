@@ -58,6 +58,7 @@ private:
     Button* startStopButton;
     Button* upButton;
     Button* downButton;
+    Button* okButton;
     Button* leftButton;
     Button* rightButton;
     Button* menuButton;

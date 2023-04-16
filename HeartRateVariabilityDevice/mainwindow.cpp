@@ -48,6 +48,7 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
 
     upButton = new Button("");
     downButton = new Button("");
+    okButton = new Button("");
 
 
     QPixmap pixmap3(":/res/upButton.svg");
@@ -58,9 +59,14 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
     QIcon icon4(pixmap4);
     downButton->setIcon(icon4);
 
+    QPixmap pixmap5(":/res/okButton.svg");
+    QIcon icon5(pixmap5);
+    okButton->setIcon(icon5);
+
 
     sessionButtonsGridLayout->addWidget(downButton, 3, 3);
     sessionButtonsGridLayout->addWidget(upButton, 1, 3);
+    sessionButtonsGridLayout->addWidget(okButton, 2, 3);
 
 
     sessionRadioButton = new QRadioButton("Run Session");
@@ -102,67 +108,48 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
 
     upButton->setEnabled(false);
     downButton->setEnabled(false);
+    okButton->setEnabled(false);
+
+    QObject :: connect(okButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
+        if (sessionRadioButton->isChecked()){
+            this->battery->losePower(1);
+            this->getMenuView()->hide();
+            this->getCoherenceGraphView()->show();
+
+            startStopButton->setEnabled(true);
+            upButton->setEnabled(false);
+            downButton->setEnabled(false);
+            leftButton->setEnabled(false);
+            rightButton->setEnabled(false);
+
+            okButton->hide();
+            startStopButton->show();
 
 
+            if (this->battery->isDead()) {
+                this->powerOff();
+            }
+            trackSession.append("Session");
+        }else if(logsRadioButton->isChecked()){
+            this->battery->losePower(1);
+            this->getMenuView()->hide();
+            this->getCoherenceGraphView()->show();
 
+            startStopButton->setEnabled(false);
+            okButton->setEnabled(false);
+            upButton->setEnabled(false);
+            downButton->setEnabled(false);
+            leftButton->setEnabled(true);
+            rightButton->setEnabled(true);
 
-    /*
-
-
-    sessionButton = new Button("Run Session");
-    settingsButton = new Button("Settings");
-    logsButton = new Button("Logs/History");
-
-    menuButtonsGridLayout->addWidget(sessionButton, 2, 2);
-    menuButtonsGridLayout->addWidget(logsButton, 4, 3);
-    menuButtonsGridLayout->addWidget(settingsButton, 4, 1);
-
-
-    sessionButton->setEnabled(false);
-    logsButton->setEnabled(false);
-    settingsButton->setEnabled(false);
-
-    QObject :: connect(sessionButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
-        qDebug() << name << "Button clicked " << count << " times";
-        this->battery->losePower(1);
-        this->getMenuView()->hide();
-        this->getCoherenceGraphView()->show();
-
-        startStopButton->setEnabled(true);
-        upButton->setEnabled(false);
-        downButton->setEnabled(false);
-        leftButton->setEnabled(false);
-        rightButton->setEnabled(false);
-
-
-        if (this->battery->isDead()) {
-            this->powerOff();
+            if (this->battery->isDead()) {
+                this->powerOff();
+            }
+            trackSession.append("Logs");
         }
-        trackSession.append("Session");
-    });
-    QObject :: connect(logsButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
-        qDebug() << name << "Button clicked " << count << " times";
-        this->battery->losePower(1);
-        this->getMenuView()->hide();
-        this->getCoherenceGraphView()->show();
 
-        startStopButton->setEnabled(false);
-        upButton->setEnabled(false);
-        downButton->setEnabled(false);
-        leftButton->setEnabled(true);
-        rightButton->setEnabled(true);
 
-        if (this->battery->isDead()) {
-            this->powerOff();
-        }
-        trackSession.append("Logs");
     });
-    QObject :: connect(settingsButton, &Button::clickedWithCount, [this](int count, const QString& name) {
-        qDebug() << name << "Button clicked " << count << " times";
-        trackSession.append("Settings");
-    });
-
-    */
 }
 
 void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
@@ -213,6 +200,8 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
     buttonsGridLayout->addWidget(leftButton, 2, 2);
     buttonsGridLayout->addWidget(rightButton, 2, 4);
 
+    startStopButton->hide();
+
 
     // connecting objects to slots
     QObject :: connect(powerButton, &Button::clickedWithCount, [this](int count, const QString& name) {
@@ -232,6 +221,15 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         if (this->battery->isDead()) {
             this->powerOff();
         }
+        startStopButton->setEnabled(false);
+        leftButton->setEnabled(false);
+        rightButton->setEnabled(false);
+
+        upButton->setEnabled(true);
+        okButton->setEnabled(true);
+        downButton->setEnabled(true);
+        startStopButton->hide();
+        okButton->show();
     });
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
 
@@ -275,6 +273,8 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
                 this->battery->losePower(1);
                 this->getMenuView()->hide();
                 this->getCoherenceGraphView()->show();
+                okButton->hide();
+                startStopButton->show();
 
                 startStopButton->setEnabled(true);
                 leftButton->setEnabled(false);
@@ -381,21 +381,18 @@ void MainWindow::powerOn(){
         goBackButton->setEnabled(true);
         upButton->setEnabled(true);
         downButton->setEnabled(true);
+        okButton->setEnabled(true);
     } else {
         qDebug() << "Device is dead";
     }
 }
 
 void MainWindow::powerOff() {
-
-    sessionButton->setEnabled(false);
-    settingsButton->setEnabled(false);
-    logsButton->setEnabled(false);
-
     startStopButton->setEnabled(false);
     menuButton->setEnabled(false);
     upButton->setEnabled(false);
     downButton->setEnabled(false);
+    okButton->setEnabled(false);
     leftButton->setEnabled(false);
     rightButton->setEnabled(false);
     goBackButton->setEnabled(false);
