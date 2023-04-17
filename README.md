@@ -6,9 +6,9 @@ Worked On: Building the Use Cases, Both Class Diagrams, State Diagram, The red c
   
  
 Group Memeber: 
-  Name:    
-  SN:
-  Worked On: 
+  Name: Ali Jameel
+  SN: 101185339
+  Worked On: Writing code for the program, including functionality of the menu, algorithm of generating graphs, the go back button and other program functionality.
 
 Group Memeber: 
   Name: 
