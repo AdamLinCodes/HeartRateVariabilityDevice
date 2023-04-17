@@ -14,9 +14,9 @@ Group Memeber:
   Worked On: Writing code for the program, including functionality of the menu, algorithm of generating graphs, the go back button and other program functionality.
 
 Group Memeber: 
-  Name: 
-  SN:
-  Worked On: 
+  Name: TimothyHou
+  SN: 101105315 
+  Worked On: use case UML  sequence diagrams
   
   
 Group Memeber: 
