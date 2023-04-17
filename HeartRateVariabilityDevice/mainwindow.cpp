@@ -37,14 +37,27 @@ void MainWindow::setupBattery() {
     battery = new Battery();
 }
 
+void MainWindow::setupSettings(QGridLayout *sessionButtonsGridLayout)
+{
+    settingsView = new QGraphicsView();
+    QGridLayout* settingsButtonsGridLayout = new QGridLayout();
+    settingsView->setLayout(settingsButtonsGridLayout);
+
+    lowPowerModeRadioButton = new QRadioButton("Low Power Mode");
+
+    settingsView->hide();
+
+    settingsButtonsGridLayout->addWidget(lowPowerModeRadioButton, 2, 2);
+
+    connect(lowPowerModeRadioButton, &QRadioButton::toggled, this, &MainWindow::updatePowerMode);
+
+}
+
 void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
 {
     menuView = new QGraphicsView();
     QGridLayout* menuButtonsGridLayout = new QGridLayout();
     menuView->setLayout(menuButtonsGridLayout);
-
-    //NEW CODE HERE
-
 
     upButton = new Button("");
     downButton = new Button("");
@@ -112,7 +125,9 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
 
     QObject :: connect(okButton, &Button::clickedWithCount, [this, sessionButtonsGridLayout](int count, const QString& name) {
         if (sessionRadioButton->isChecked()){
-            this->battery->losePower(1);
+            if (!lowPowerModeOn){
+                this->battery->losePower(1);
+            }
             this->getMenuView()->hide();
             this->getCoherenceGraphView()->show();
 
@@ -131,7 +146,9 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
             }
             trackSession.append("Session");
         }else if(logsRadioButton->isChecked()){
-            this->battery->losePower(1);
+            if (!lowPowerModeOn){
+                this->battery->losePower(1);
+            }
             this->getMenuView()->hide();
             this->getCoherenceGraphView()->show();
 
@@ -146,6 +163,20 @@ void MainWindow::setupMenu(QGridLayout *sessionButtonsGridLayout)
                 this->powerOff();
             }
             trackSession.append("Logs");
+        }else if(settingsRadioButton->isChecked()){
+            if (!lowPowerModeOn){
+                this->battery->losePower(1);
+            }
+            this->getMenuView()->hide();
+            this->getCoherenceGraphView()->hide();
+            this->getSettingsView()->show();
+            leftButton->setEnabled(false);
+            rightButton->setEnabled(false);
+            upButton->setEnabled(false);
+            downButton->setEnabled(false);
+            startStopButton->setEnabled(false);
+            okButton->setEnabled(false);
+            trackSession.append("Settings");
         }
 
 
@@ -213,10 +244,13 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         }
     });
     QObject :: connect(menuButton, &Button::clickedWithCount, [this](int count, const QString& name) {
-        this->battery->losePower(1);
+        if (!lowPowerModeOn){
+            this->battery->losePower(1);
+        }
         qDebug() << "Menu Button clicked " << count << " times";
         lightsView->allOff();
         this->getCoherenceGraphView()->hide();
+        this->getSettingsView()->hide();
         this->getMenuView()->show();
         if (this->battery->isDead()) {
             this->powerOff();
@@ -230,11 +264,16 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
         downButton->setEnabled(true);
         startStopButton->hide();
         okButton->show();
+        qDebug() << lowPowerModeOn;
     });
     QObject :: connect(startStopButton, &Button::clickedWithCount, [this](int count, const QString& name) {
 
         if (count % 2 == 0) {
-            this->battery->losePower(10);
+            if (!lowPowerModeOn){
+                this->battery->losePower(10);
+            }else{
+                this->battery->losePower(5);
+            }
             qDebug() << this->battery->isDead();
 
             this->lightsView->allOff();
@@ -270,8 +309,11 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 
         if (trackSession.size() > 0){
             if (trackSession[trackSession.size()-1] == "Session"){
-                this->battery->losePower(1);
+                if (!lowPowerModeOn){
+                    this->battery->losePower(1);
+                }
                 this->getMenuView()->hide();
+                this->getSettingsView()->hide();
                 this->getCoherenceGraphView()->show();
                 okButton->hide();
                 startStopButton->show();
@@ -285,8 +327,11 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
                     this->powerOff();
                 }
             }else if (trackSession[trackSession.size()-1] == "Logs"){
-                this->battery->losePower(1);
+                if (!lowPowerModeOn){
+                    this->battery->losePower(1);
+                }
                 this->getMenuView()->hide();
+                this->getSettingsView()->hide();
                 this->getCoherenceGraphView()->show();
 
                 startStopButton->setEnabled(false);
@@ -296,12 +341,29 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
                 if (this->battery->isDead()) {
                     this->powerOff();
                 }
+            }else if (trackSession[trackSession.size()-1] == "Settings"){
+                if (!lowPowerModeOn){
+                    this->battery->losePower(1);
+                }
+                this->getMenuView()->hide();
+                this->getCoherenceGraphView()->hide();
+                this->getSettingsView()->show();
+                leftButton->setEnabled(false);
+                rightButton->setEnabled(false);
+                upButton->setEnabled(false);
+                downButton->setEnabled(false);
+                startStopButton->setEnabled(false);
+                okButton->setEnabled(false);
             }
             trackSession.removeLast();
         }
     });
     QObject :: connect(leftButton, &Button::clickedWithCount, [this](int count, const QString& name) {
-        this->battery->losePower(2);
+        if (!lowPowerModeOn){
+            this->battery->losePower(2);
+        }else{
+            this->battery->losePower(1);
+        }
         coherenceGraphView->setEmpty();
         this->lightsView->allOff();
 
@@ -338,7 +400,11 @@ void MainWindow::setupButtons(QGridLayout *buttonsGridLayout)
 
     });
     QObject :: connect(rightButton, &Button::clickedWithCount, [this](int count, const QString& name) {
-        this->battery->losePower(2);
+        if (!lowPowerModeOn){
+            this->battery->losePower(2);
+        }else{
+            this->battery->losePower(1);
+        }
         coherenceGraphView->setEmpty();
         this->lightsView->allOff();
 
@@ -401,6 +467,10 @@ void MainWindow::powerOff() {
     lightsView->allOff();
 }
 
+void MainWindow::updatePowerMode(bool enabled){
+    lowPowerModeOn = enabled;
+}
+
 Graph* MainWindow::getCoherenceGraphView() {
     return coherenceGraphView;
 }
@@ -411,6 +481,10 @@ Lights* MainWindow::getLightsView() {
 
 Battery* MainWindow::getBattery() {
     return battery;
+}
+
+QGraphicsView* MainWindow::getSettingsView(){
+    return settingsView;
 }
 
 QGraphicsView* MainWindow::getMenuView(){

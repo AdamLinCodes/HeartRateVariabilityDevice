@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     w.setupLights();
     w.setupChart();
     w.setupMenu(buttonsGridLayout);
+    w.setupSettings(buttonsGridLayout);
     w.setupButtons(buttonsGridLayout);
     w.setupBattery();
 
@@ -28,7 +29,8 @@ int main(int argc, char *argv[])
     widgetLayout->addWidget(w.getLightsView(), 0, 0);
     widgetLayout->addWidget(w.getCoherenceGraphView(), 1, 0);
     widgetLayout->addWidget(w.getMenuView(), 2, 0);
-    widgetLayout->addWidget(buttonsView, 3, 0);
+    widgetLayout->addWidget(w.getSettingsView(), 3, 0);
+    widgetLayout->addWidget(buttonsView, 4, 0);
     widgetLayout->addWidget(w.getBattery());
 
     centralWidget->setLayout(widgetLayout);
