@@ -1,6 +1,4 @@
-# HeartRateVariabilityDevice
-
-TEAM 34
+# TEAM 34 - HeartRateVariabilityDevice (COMP 3004)
 
 Group Memeber: 
 Name: Seleman Shinwarie    
@@ -20,6 +18,10 @@ Group Memeber:
   
   
 Group Memeber: 
-  Name:   
-  SN:
-  Worked On: 
+  Name: Adam Lin
+  SN: 101151677
+  Worked On: Wrote code for the program: implemented the foundation (widgets, layouts and views), buttons, graphs, line series, battery, coherence level LEDs, and other general functionality.
+  
+# Installation Instructions
+1. Open termnal and use ```sudo apt-get install libqt5charts5 libqt5charts5-dev``` to install the QtCharts library, and its tools. **NB.** This needs to be done before step 2.
+2. 
