@@ -36,11 +36,14 @@ public:
     void setupBattery();
     void setupButtons(QGridLayout*);
     void setupMenu(QGridLayout*);
+    void setupSettings(QGridLayout*);
     void powerOn();
     void powerOff();
+    void updatePowerMode(bool);
     Graph* getCoherenceGraphView();
     Lights* getLightsView();
     QGraphicsView* getMenuView();
+    QGraphicsView* getSettingsView();
     Battery* getBattery();
     ~MainWindow();
 
@@ -53,6 +56,8 @@ private:
     QRadioButton* sessionRadioButton;
     QRadioButton* settingsRadioButton;
     QRadioButton* logsRadioButton;
+
+    QRadioButton* lowPowerModeRadioButton;
 
     Button* powerButton;
     Button* startStopButton;
@@ -69,7 +74,9 @@ private:
     Session* session;
     Battery* battery;
     QGraphicsView* menuView;
+    QGraphicsView* settingsView;
     int currentSession;
     QStringList trackSession;
+    bool lowPowerModeOn = false;
 };
 #endif // MAINWINDOW_H
