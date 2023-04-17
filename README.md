@@ -1,4 +1,7 @@
 # HeartRateVariabilityDevice
+
+TEAM 34
+
 Group Memeber: 
 Name: Seleman Shinwarie    
 SN:101161802
